@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import StockSelector, { ALLOWED_SYMBOLS } from "@/components/StockSelector";
 import TimeframeSelector, {
   ALLOWED_PERIODS,
@@ -10,10 +9,42 @@ import TrendCard from "@/components/TrendCard";
 import StockChart from "@/components/StockChart";
 import { getStockData } from "@/services/stockService";
 
+interface CandleData {
+  time: string;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+}
+
+interface VolumeData {
+  time: string;
+  value: number;
+}
+
+interface StockResponse {
+  symbol: string;
+  trend: string;
+  indicator_used: string;
+  support_levels: number[];
+  resistance_levels: number[];
+  candles: CandleData[];
+  volume: VolumeData[];
+}
+
+interface ErrorWithResponse {
+  response?: {
+    data?: {
+      detail?: string;
+    };
+  };
+}
+
 export default function Home() {
   const [symbol, setSymbol] = useState(ALLOWED_SYMBOLS[0]);
   const [period, setPeriod] = useState(ALLOWED_PERIODS[1]); // Default to 3mo
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<StockResponse | null>(null);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -23,11 +54,16 @@ export default function Home() {
     try {
       const response = await getStockData(symbol, period);
       setData(response);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setError(
-        err.response?.data?.detail || "An error occurred while fetching data.",
-      );
+      let errorMessage = "An error occurred while fetching data.";
+      if (err && typeof err === "object" && "response" in err) {
+        const errorResponse = (err as ErrorWithResponse).response;
+        if (errorResponse?.data?.detail) {
+          errorMessage = errorResponse.data.detail;
+        }
+      }
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -35,6 +71,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchStockData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [symbol, period]);
 
   return (
