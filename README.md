@@ -1,3 +1,9 @@
+Live link: https://stock-market-analyzer-delta.vercel.app/
+<br/>
+backend: https://stock-market-analyzer-20vs.onrender.com/
+<br/>
+loom demo video: https://www.loom.com/share/d55da8403898425487516b02ad172799
+
 # Stock Market Analyzer
 
 A full-stack, production-grade project scaffold for a Stock Market Analysis Dashboard. Built to track real-time stock data and historical trends with a powerful user interface.
