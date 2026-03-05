@@ -1,11 +1,17 @@
-# Stock Market Analysis Dashboard
+# Stock Market Analyzer
 
-A full-stack project scaffold for an Indian Stock Market Analysis Dashboard.
+A full-stack, production-grade project scaffold for a Stock Market Analysis Dashboard. Built to track real-time stock data and historical trends with a powerful user interface.
 
 ## Project Structure
 
-- `frontend/`: Next.js 14, TypeScript, Tailwind CSS, Axios
-- `backend/`: FastAPI Python project with endpoints for data analysis
+- `frontend/`: Next.js 14 (App Router), TypeScript, Tailwind CSS, Recharts, Framer Motion.
+- `backend/`: FastAPI Python project with high-performance async endpoints for data analysis.
+
+## Project Documentation
+
+- [Architecture Overview](architecture.md): High-level system design and component interaction.
+- [Frontend Documentation](frontend/README.md): Details to run, configure, and build the Next.js ui.
+- [Backend Documentation](backend/README.md): Details to run, configure, and expand the FastAPI service.
 
 ## Getting Started
 

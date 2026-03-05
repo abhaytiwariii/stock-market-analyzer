@@ -20,11 +20,11 @@ export default function TimeframeSelector({
   disabled,
 }: TimeframeSelectorProps) {
   return (
-    <div className="flex flex-col gap-1.5">
-      <label className="text-sm font-medium text-black/60 dark:text-white/60">
+    <div className="flex flex-col gap-2">
+      <label className="text-[11px] font-mono uppercase tracking-widest text-neutral">
         Timeframe
       </label>
-      <div className="inline-flex rounded-lg border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 p-1 max-w-fit">
+      <div className="inline-flex rounded-xl p-1 bg-black/20 border border-white/5 shadow-inner h-12 items-center relative gap-1">
         {ALLOWED_PERIODS.map((period) => {
           const isActive = value === period;
           return (
@@ -33,13 +33,16 @@ export default function TimeframeSelector({
               onClick={() => onChange(period)}
               disabled={disabled}
               className={cn(
-                "px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200",
+                "relative px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 ease-out z-10",
                 isActive
-                  ? "bg-white dark:bg-[#2c2c2c] text-black dark:text-white shadow-sm"
-                  : "text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white",
+                  ? "text-[#0e1117]"
+                  : "text-[#e6edf3] hover:text-primary",
                 disabled && "opacity-50 cursor-not-allowed",
               )}
             >
+              {isActive && (
+                <span className="absolute inset-0 bg-primary rounded-lg shadow-glow-hover -z-10 animate-slide-pill" />
+              )}
               {period}
             </button>
           );

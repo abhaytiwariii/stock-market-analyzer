@@ -17,87 +17,94 @@ export default function TrendCard({
   const getTrendColor = (t: string) => {
     switch (t.toLowerCase()) {
       case "bullish":
-        return "text-green-500 bg-green-500/10 border-green-500/20";
+        return "text-bullish bg-bullish/10 border-bullish/30";
       case "bearish":
-        return "text-red-500 bg-red-500/10 border-red-500/20";
+        return "text-bearish bg-bearish/10 border-bearish/30";
       default:
-        return "text-gray-500 bg-gray-500/10 border-gray-500/20 dark:text-gray-300 dark:bg-gray-700/30";
+        return "text-neutral bg-neutral/10 border-neutral/30";
     }
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full auto-rows-fr">
       {/* Trend Info */}
-      <div className="p-4 rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#111111] flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
-        <div className="flex items-center space-x-2 text-black/50 dark:text-white/50 mb-4">
-          <Activity size={18} />
-          <h3 className="text-sm font-medium">Market Trend</h3>
+      <div className="p-6 rounded-2xl glass-panel flex flex-col justify-between group overflow-hidden relative shine-effect hover:-translate-y-1 transition-transform duration-300">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl -mr-10 -mt-10 group-hover:bg-primary/10 transition-colors pointer-events-none" />
+        <div className="flex items-center space-x-3 text-neutral mb-6">
+          <div className="p-2 bg-surface rounded-lg shadow-sm border border-white/5">
+            <Activity size={20} className="text-primary" />
+          </div>
+          <h3 className="text-[13px] font-mono font-semibold uppercase tracking-widest text-[#8b949e]">
+            Market Trend
+          </h3>
         </div>
         <div>
           <span
-            className={`inline-flex px-3 py-1 rounded-full text-sm font-semibold border ${getTrendColor(trend)}`}
+            className={`inline-flex px-4 py-1.5 rounded-full text-sm font-bold border transition-colors ${getTrendColor(trend)}`}
           >
             {trend}
           </span>
-          <p className="text-xs text-black/40 dark:text-white/40 mt-3 flex items-center gap-1">
-            <Pickaxe size={12} />
-            Based on {indicatorUsed}
+          <p className="text-xs font-mono text-neutral mt-5 flex items-center gap-2">
+            <Pickaxe size={14} />
+            Based on {indicatorUsed || "Moving Averages"}
           </p>
         </div>
       </div>
 
       {/* Support Levels */}
-      <div className="p-4 rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#111111] flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
-        <div className="flex items-center space-x-2 text-black/50 dark:text-white/50 mb-4">
-          <TrendingDown size={18} className="text-blue-500" />
-          <h3 className="text-sm font-medium">Support Levels</h3>
+      <div className="p-6 rounded-2xl glass-panel flex flex-col justify-between group overflow-hidden relative hover:-translate-y-1 transition-transform duration-300">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-bullish/5 rounded-full blur-2xl -mr-10 -mt-10 group-hover:bg-bullish/10 transition-colors pointer-events-none" />
+        <div className="flex items-center space-x-3 text-neutral mb-6">
+          <div className="p-2 bg-surface rounded-lg shadow-sm border border-white/5">
+            <TrendingDown size={20} className="text-bullish" />
+          </div>
+          <h3 className="text-[13px] font-mono font-semibold uppercase tracking-widest text-[#8b949e]">
+            Support Levels
+          </h3>
         </div>
-        <div className="space-y-2">
+        <div className="space-y-4">
           {supportLevels.map((lvl, idx) => (
             <div
               key={`support-${idx}`}
-              className="flex justify-between items-center text-sm"
+              className="flex justify-between items-center text-sm group-hover:bg-white/5 p-2 -mx-2 rounded transition-colors"
             >
-              <span className="text-black/60 dark:text-white/60">
-                S{idx + 1}
-              </span>
-              <span className="font-mono font-medium text-black dark:text-white">
+              <span className="text-neutral font-medium">S{idx + 1}</span>
+              <span className="font-mono font-bold text-[#e6edf3]">
                 ₹{lvl.toFixed(2)}
               </span>
             </div>
           ))}
           {supportLevels.length === 0 && (
-            <span className="text-sm text-black/40 dark:text-white/40">
-              N/A
-            </span>
+            <span className="text-sm font-medium text-neutral">N/A</span>
           )}
         </div>
       </div>
 
       {/* Resistance Levels */}
-      <div className="p-4 rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#111111] flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
-        <div className="flex items-center space-x-2 text-black/50 dark:text-white/50 mb-4">
-          <TrendingUp size={18} className="text-orange-500" />
-          <h3 className="text-sm font-medium">Resistance Levels</h3>
+      <div className="p-6 rounded-2xl glass-panel flex flex-col justify-between group overflow-hidden relative hover:-translate-y-1 transition-transform duration-300">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-bearish/5 rounded-full blur-2xl -mr-10 -mt-10 group-hover:bg-bearish/10 transition-colors pointer-events-none" />
+        <div className="flex items-center space-x-3 text-neutral mb-6">
+          <div className="p-2 bg-surface rounded-lg shadow-sm border border-white/5">
+            <TrendingUp size={20} className="text-bearish" />
+          </div>
+          <h3 className="text-[13px] font-mono font-semibold uppercase tracking-widest text-[#8b949e]">
+            Resistance Levels
+          </h3>
         </div>
-        <div className="space-y-2">
+        <div className="space-y-4">
           {resistanceLevels.map((lvl, idx) => (
             <div
               key={`resistance-${idx}`}
-              className="flex justify-between items-center text-sm"
+              className="flex justify-between items-center text-sm group-hover:bg-white/5 p-2 -mx-2 rounded transition-colors"
             >
-              <span className="text-black/60 dark:text-white/60">
-                R{idx + 1}
-              </span>
-              <span className="font-mono font-medium text-black dark:text-white">
+              <span className="text-neutral font-medium">R{idx + 1}</span>
+              <span className="font-mono font-bold text-[#e6edf3]">
                 ₹{lvl.toFixed(2)}
               </span>
             </div>
           ))}
           {resistanceLevels.length === 0 && (
-            <span className="text-sm text-black/40 dark:text-white/40">
-              N/A
-            </span>
+            <span className="text-sm font-medium text-neutral">N/A</span>
           )}
         </div>
       </div>

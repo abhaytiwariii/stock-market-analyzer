@@ -45,45 +45,58 @@ export default function StockChart({
       chart.applyOptions({ width: chartContainerRef.current?.clientWidth });
     };
 
-    const isDarkMode =
-      document.documentElement.classList.contains("dark") ||
-      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    // Use new theme tokens
+    const textColor = "#8b949e";
+    const gridColor = "rgba(255, 255, 255, 0.05)";
+    const primaryColor = "#00e5ff";
+    const bullishColor = "#00e676";
+    const bearishColor = "#ff4d4d";
 
     // Create chart
     const chart = createChart(chartContainerRef.current, {
       layout: {
         background: { type: ColorType.Solid, color: "transparent" },
-        textColor: isDarkMode ? "#d1d5db" : "#374151",
+        textColor: textColor,
+        fontFamily: "var(--font-mono), monospace",
       },
       grid: {
-        vertLines: { color: isDarkMode ? "#374151" : "#e5e7eb" },
-        horzLines: { color: isDarkMode ? "#374151" : "#e5e7eb" },
+        vertLines: { color: gridColor },
+        horzLines: { color: gridColor },
       },
       crosshair: {
         mode: CrosshairMode.Normal,
       },
       rightPriceScale: {
-        borderColor: isDarkMode ? "#374151" : "#e5e7eb",
+        borderColor: gridColor,
       },
       timeScale: {
-        borderColor: isDarkMode ? "#374151" : "#e5e7eb",
+        borderColor: gridColor,
         timeVisible: true,
+      },
+      handleScroll: {
+        mouseWheel: true,
+        pressedMouseMove: true,
+      },
+      handleScale: {
+        axisPressedMouseMove: true,
+        mouseWheel: true,
+        pinch: true,
       },
     });
 
     // Add Candlestick Series
     const candlestickSeries = chart.addSeries(CandlestickSeries, {
-      upColor: "#26a69a",
-      downColor: "#ef5350",
+      upColor: bullishColor,
+      downColor: bearishColor,
       borderVisible: false,
-      wickUpColor: "#26a69a",
-      wickDownColor: "#ef5350",
+      wickUpColor: bullishColor,
+      wickDownColor: bearishColor,
     });
     candlestickSeries.setData(candles);
 
     // Add Volume Series (Histogram)
     const volumeSeries = chart.addSeries(HistogramSeries, {
-      color: "#26a69a",
+      color: primaryColor,
       priceFormat: {
         type: "volume",
       },
@@ -103,7 +116,7 @@ export default function StockChart({
       return {
         time: item.time,
         value: item.value,
-        color: isUp ? "rgba(38, 166, 154, 0.5)" : "rgba(239, 83, 80, 0.5)",
+        color: isUp ? "rgba(0, 230, 118, 0.2)" : "rgba(255, 77, 77, 0.2)", // bullish/bearish with opacity
       };
     });
     volumeSeries.setData(volumeData);
@@ -112,7 +125,7 @@ export default function StockChart({
     supportLevels.forEach((level) => {
       candlestickSeries.createPriceLine({
         price: level,
-        color: "#3b82f6", // blue-500
+        color: bullishColor,
         lineWidth: 2,
         lineStyle: LineStyle.Dashed,
         axisLabelVisible: true,
@@ -124,7 +137,7 @@ export default function StockChart({
     resistanceLevels.forEach((level) => {
       candlestickSeries.createPriceLine({
         price: level,
-        color: "#f97316", // orange-500
+        color: bearishColor,
         lineWidth: 2,
         lineStyle: LineStyle.Dashed,
         axisLabelVisible: true,
@@ -145,7 +158,7 @@ export default function StockChart({
   return (
     <div
       ref={chartContainerRef}
-      className="w-full h-[500px] border border-black/10 dark:border-white/10 rounded-xl overflow-hidden bg-white dark:bg-[#111111]"
+      className="w-full h-[500px] border border-white/5 rounded-2xl overflow-hidden glass-panel"
     />
   );
 }
