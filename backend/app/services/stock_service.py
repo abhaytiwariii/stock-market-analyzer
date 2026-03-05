@@ -1,6 +1,7 @@
 import yfinance as yf
 from fastapi import HTTPException
 import pandas as pd
+from app.utils.indicators import calculate_trend, calculate_support_resistance
 
 ALLOWED_SYMBOLS = ["RELIANCE.NS", "TCS.NS", "HDFCBANK.NS", "ITC.NS", "SUNPHARMA.NS"]
 ALLOWED_PERIODS = ["1mo", "3mo", "6mo", "1y"]
@@ -20,6 +21,9 @@ def get_stock_data(symbol: str, period: str = "1mo"):
     
     if df.empty:
         raise HTTPException(status_code=404, detail="No data found for the given symbol and period")
+        
+    trend_data = calculate_trend(df)
+    sr_data = calculate_support_resistance(df)
         
     df = df.reset_index()
     
@@ -48,6 +52,10 @@ def get_stock_data(symbol: str, period: str = "1mo"):
         
     return {
         "symbol": symbol,
+        "trend": trend_data["trend"],
+        "indicator_used": trend_data["indicator_used"],
+        "support_levels": sr_data["support_levels"],
+        "resistance_levels": sr_data["resistance_levels"],
         "candles": candles,
         "volume": volume
     }
