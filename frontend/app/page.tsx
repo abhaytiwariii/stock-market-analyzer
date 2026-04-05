@@ -95,6 +95,12 @@ export default function Home() {
               Indian Stock <span className="text-gradient">Analyzer</span>
             </h1>
             <p className="text-sm sm:text-base text-neutral font-medium">
+              Using a free AI model and free hosting.{" "}
+              <span className="text-red-400">
+                Initial responses may take 1–2 minutes.
+              </span>
+            </p>
+            <p className="text-sm sm:text-base text-neutral font-medium">
               Real-time insights, technical analysis, and price action tracking.
             </p>
           </div>
